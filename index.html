@@ -14,7 +14,7 @@
       line-height: 1.6;
     }
     header {
-      background: linear-gradient(135deg, #c9a96e, #e6d3a3);
+      background: linear-gradient(135deg, #ff7f50, #ffb347);
       color: white;
       text-align: center;
       padding: 80px 20px;
@@ -28,10 +28,18 @@
       font-size: 1.2em;
       margin-top: 10px;
     }
+    #countdown {
+      font-size: 1.5em;
+      margin-top: 20px;
+    }
     section {
       max-width: 900px;
       margin: auto;
       padding: 60px 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
     }
     h2 {
       font-family: 'Playfair Display', serif;
@@ -46,14 +54,21 @@
       display: inline-block;
       margin-top: 20px;
       padding: 12px 25px;
-      background: #c9a96e;
+      background: #ff7f50;
       color: white;
       text-decoration: none;
       border-radius: 30px;
       font-weight: 600;
     }
     .button:hover {
-      background: #b8965d;
+      background: #ff4c1e;
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 2.2rem; }
+      header p { font-size: 1rem; }
+      #countdown { font-size: 1.2em; }
+      section { padding: 30px 10px; }
+      .button { padding: 10px 20px; font-size: 0.95rem; }
     }
     footer {
       background: #222;
@@ -69,6 +84,7 @@
 <header>
   <h1>Irantzu & Alberto</h1>
   <p>12 de septiembre de 2026 · Palacio de Olloqui</p>
+  <p id="countdown"></p>
 </header>
 
 <section>
@@ -77,7 +93,7 @@
     <p>Nos hace mucha ilusión compartir este día tan especial con vosotros.</p>
     <p><strong>Fecha:</strong> 12 de septiembre de 2026</p>
     <p><strong>Lugar:</strong> Palacio de Olloqui</p>
-    <a class="button" href="https://share.google/ZZEsrw8xyNDYXcZ1Y" target="_blank">
+    <a class="button" href="#" target="_blank">
       Ver ubicación en Google Maps
     </a>
   </div>
@@ -86,10 +102,10 @@
 <section>
   <h2>Planning de la boda</h2>
   <div class="info">
-    <p>🕛 13:00 – Ceremonia</p>
+    <p>🕛 12:30 – Ceremonia</p>
     <p>🥂 14:00 – Cóctel</p>
-    <p>🍽️ 16:30 – Banquete</p>
-    <p>🎉 20:00 – Fiesta</p>
+    <p>🍽️ 15:30 – Banquete</p>
+    <p>🎉 18:00 – Fiesta</p>
   </div>
 </section>
 
@@ -97,7 +113,7 @@
   <h2>Confirmación de asistencia</h2>
   <div class="info">
     <p>Por favor, confirma tu asistencia antes del gran día.</p>
-    <a class="button" href="ENLACE_GOOGLE_FORM_ASISTENCIA" target="_blank">
+    <a class="button" href="#" target="_blank">
       Confirmar asistencia
     </a>
   </div>
@@ -107,7 +123,7 @@
   <h2>Alergias e intolerancias</h2>
   <div class="info">
     <p>Ayúdanos a tenerlo todo en cuenta.</p>
-    <a class="button" href="ENLACE_GOOGLE_FORM_ALERGENOS" target="_blank">
+    <a class="button" href="#" target="_blank">
       Indicar alergias
     </a>
   </div>
@@ -116,8 +132,8 @@
 <section>
   <h2>Autobús</h2>
   <div class="info">
-    <p>Confirma si vas a seguir con nosotros cuando nos vayamos del Palacio de Olloqui y necesitas plaza de autobús.</p>
-    <a class="button" href="ENLACE_GOOGLE_FORM_AUTOBUS" target="_blank">
+    <p>Confirma si necesitas plaza de autobús.</p>
+    <a class="button" href="#" target="_blank">
       Confirmar autobús
     </a>
   </div>
@@ -126,6 +142,24 @@
 <footer>
   <p>Irantzu & Alberto · 12 de septiembre de 2026</p>
 </footer>
+
+<script>
+  // Cuenta atrás
+  const countDownDate = new Date("Sep 12, 2026 12:00:00").getTime();
+  const x = setInterval(function() {
+    const now = new Date().getTime();
+    const distance = countDownDate - now;
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((distance % (1000*60)) / 1000);
+    document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    if(distance < 0) {
+      clearInterval(x);
+      document.getElementById("countdown").innerHTML = "¡Hoy es nuestro gran día!";
+    }
+  }, 1000);
+</script>
 
 </body>
 </html>
