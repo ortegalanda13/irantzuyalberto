@@ -16,18 +16,42 @@
       background-color: #e8f0ee;
       min-height: 100vh;
       position: relative;
+      padding: 0;
     }
 
+    /* Marco en tonos verdes/azules */
     body::before {
       content: '';
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       pointer-events: none;
       z-index: 0;
       border: 52px solid #c5d9d4;
       box-shadow: inset 0 0 0 2px rgba(59,120,120,0.15);
     }
 
+    .corner-flower {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.85;
+    }
+    .corner-flower.top-left  { top: 0;   left: 0;   transform: scale(1); }
+    .corner-flower.top-right { top: 0;   right: 0;  transform: scaleX(-1); }
+    .corner-flower.bot-left  { bottom: 0; left: 0;   transform: scaleY(-1); }
+    .corner-flower.bot-right { bottom: 0; right: 0;  transform: scale(-1); }
+
+    @media (max-width: 700px) {
+      body::before { border-width: 28px; }
+      .corner-flower { width: 70px; height: 70px; }
+    }
+
+    /* Header con degradado verde claro (sin imagen, compatible con GitHub) */
     header {
       position: relative;
       z-index: 2;
@@ -38,55 +62,152 @@
       justify-content: center;
       text-align: center;
       padding: 80px 20px;
-      background: linear-gradient(160deg, #a8d5c8, #4a8a7e);
+      background: linear-gradient(160deg, #a8d5c8 0%, #7eb8a8 35%, #5a9a8e 70%, #4a8a7e 100%);
       color: #1a332e;
     }
-
-    h1 {
+    header h1, header p, .countdown-wrap { position: relative; z-index: 1; text-shadow: 0 1px 3px rgba(255,255,255,0.5); }
+    header h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 3.2em;
+      font-weight: 600;
       margin: 0;
+      letter-spacing: 0.02em;
+    }
+    header p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35em;
+      font-weight: 400;
+      margin-top: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    /* Reloj digital moderno - cuenta atrás */
+    .countdown-wrap {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      margin-top: 28px;
+    }
+    .countdown-unit {
+      background: rgba(26,51,46,0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 12px;
+      padding: 16px 20px;
+      min-width: 78px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .countdown-unit .value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      display: block;
+      color: #fff;
+      letter-spacing: 1px;
+      line-height: 1.2;
+    }
+    .countdown-unit .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.95);
+      margin-top: 4px;
+    }
+    #countdown.countdown-done .countdown-wrap { display: none; }
+    #countdown.countdown-done .countdown-message { display: block; }
+    .countdown-message {
+      display: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      margin-top: 20px;
+      padding: 16px 28px;
+      background: rgba(26,51,46,0.5);
+      border-radius: 12px;
+      color: #1a332e;
     }
 
     section {
       position: relative;
       z-index: 2;
       max-width: 900px;
-      margin: 30px auto;
+      margin: auto;
       padding: 60px 20px;
       background: rgba(255,255,255,0.92);
       border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(44,62,58,0.08);
+      margin-bottom: 30px;
+      border: 1px solid rgba(69,130,120,0.2);
     }
-
     h2 {
       font-family: 'Playfair Display', serif;
       text-align: center;
+      margin-bottom: 30px;
       color: #1e4a45;
     }
-
     .info {
       text-align: center;
+      font-size: 1.1em;
     }
-
     .button {
+      display: inline-block;
       margin-top: 20px;
       padding: 12px 25px;
       background: linear-gradient(135deg, #2d6a64, #3d8a82);
       color: white;
+      text-decoration: none;
       border: none;
       border-radius: 30px;
-      cursor: pointer;
       font-weight: 600;
+      box-shadow: 0 4px 14px rgba(45,106,100,0.35);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
     }
-
+    .button:hover {
+      background: linear-gradient(135deg, #245a54, #327a72);
+      box-shadow: 0 6px 18px rgba(45,106,100,0.4);
+    }
+    @media (max-width: 600px) {
+      header { min-height: 360px; padding: 50px 16px; }
+      header h1 { font-size: 2.4rem; }
+      header p { font-size: 1.1rem; }
+      .countdown-wrap {
+        flex-wrap: nowrap;
+        gap: 6px;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 8px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .countdown-unit {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 8px 4px;
+      }
+      .countdown-unit .value { font-size: 1.15rem; }
+      .countdown-unit .label { font-size: 0.5rem; letter-spacing: 0.5px; }
+      section { padding: 30px 10px; }
+      .button { padding: 10px 20px; font-size: 0.95rem; }
+    }
     footer {
+      position: relative;
+      z-index: 2;
       background: #1a2f2c;
       color: #a8c5c0;
       text-align: center;
-      padding: 30px;
+      padding: 30px 20px;
+      font-size: 0.9em;
     }
 
-    /* Modales */
+    /* Modales / formularios */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -95,85 +216,254 @@
       z-index: 100;
       align-items: center;
       justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
     }
-
     .modal-overlay.activo {
       display: flex;
     }
-
     .modal {
-      background: white;
+      background: #fff;
       border-radius: 16px;
       max-width: 480px;
       width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      position: relative;
     }
-
+    .modal-cerrar {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: #e8f0ee;
+      color: #2c3e3a;
+      font-size: 1.4rem;
+      line-height: 1;
+      border-radius: 50%;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-cerrar:hover {
+      background: #c5d9d4;
+    }
     .modal-titulo {
       font-family: 'Playfair Display', serif;
-      padding: 24px;
-      margin: 0;
+      font-size: 1.5rem;
+      color: #1e4a45;
+      margin: 0 0 20px 0;
+      padding: 24px 24px 0 24px;
     }
-
     .modal form {
-      padding: 0 24px 24px;
+      padding: 0 24px 24px 24px;
     }
-
     .form-grupo {
       margin-bottom: 16px;
     }
-
     .form-grupo label {
       display: block;
+      font-size: 0.9rem;
+      color: #2c3e3a;
       margin-bottom: 6px;
+      font-weight: 500;
     }
-
     .form-grupo input,
     .form-grupo select,
     .form-grupo textarea {
       width: 100%;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 10px 12px;
       border: 1px solid #c5d9d4;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      box-sizing: border-box;
     }
-
+    .form-grupo textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .form-grupo input:focus,
+    .form-grupo select:focus,
+    .form-grupo textarea:focus {
+      outline: none;
+      border-color: #5a9a8e;
+      box-shadow: 0 0 0 2px rgba(90,154,142,0.2);
+    }
     .form-boton {
       width: 100%;
-      padding: 14px;
+      margin-top: 8px;
+      padding: 14px 24px;
       background: linear-gradient(135deg, #2d6a64, #3d8a82);
       color: white;
       border: none;
       border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
+    }
+    .form-boton:hover {
+      background: linear-gradient(135deg, #245a54, #327a72);
     }
   </style>
 </head>
-
 <body>
+
+  <!-- Flores decorativas en las esquinas -->
+  <svg class="corner-flower top-left" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="petal" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#a8d5ce"/>
+        <stop offset="100%" style="stop-color:#5a9a8e"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(-20 60 60)"/>
+    <ellipse cx="85" cy="55" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(50 60 60)"/>
+    <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(120 60 60)"/>
+    <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(190 60 60)"/>
+    <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(260 60 60)"/>
+    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+  </svg>
+  <svg class="corner-flower top-right" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="petal2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#a8d5ce"/>
+        <stop offset="100%" style="stop-color:#5a9a8e"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(-20 60 60)"/>
+    <ellipse cx="85" cy="55" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(50 60 60)"/>
+    <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(120 60 60)"/>
+    <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(190 60 60)"/>
+    <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(260 60 60)"/>
+    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+  </svg>
+  <svg class="corner-flower bot-left" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="petal3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#a8d5ce"/>
+        <stop offset="100%" style="stop-color:#5a9a8e"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(-20 60 60)"/>
+    <ellipse cx="85" cy="55" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(50 60 60)"/>
+    <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(120 60 60)"/>
+    <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(190 60 60)"/>
+    <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(260 60 60)"/>
+    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+  </svg>
+  <svg class="corner-flower bot-right" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="petal4" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#a8d5ce"/>
+        <stop offset="100%" style="stop-color:#5a9a8e"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(-20 60 60)"/>
+    <ellipse cx="85" cy="55" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(50 60 60)"/>
+    <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(120 60 60)"/>
+    <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(190 60 60)"/>
+    <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(260 60 60)"/>
+    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+  </svg>
 
 <header>
   <h1>Irantzu & Alberto</h1>
   <p>12 de septiembre de 2026 · Palacio de Olloqui</p>
+  <div id="countdown">
+    <div class="countdown-wrap">
+      <div class="countdown-unit"><span class="value" id="cd-days">0</span><span class="label">Días</span></div>
+      <div class="countdown-unit"><span class="value" id="cd-hours">0</span><span class="label">Horas</span></div>
+      <div class="countdown-unit"><span class="value" id="cd-mins">0</span><span class="label">Min</span></div>
+      <div class="countdown-unit"><span class="value" id="cd-secs">0</span><span class="label">Seg</span></div>
+    </div>
+    <p class="countdown-message">¡Hoy es nuestro gran día!</p>
+  </div>
 </header>
+
+<section>
+  <h2>El gran día</h2>
+  <div class="info">
+    <p>Nos hace mucha ilusión compartir este día tan especial con vosotros.</p>
+    <p><strong>Fecha:</strong> 12 de septiembre de 2026</p>
+    <p><strong>Lugar:</strong> Palacio de Olloqui</p>
+    <a class="button" href="#" target="_blank">
+      Ver ubicación en Google Maps
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>Planning de la boda</h2>
+  <div class="info">
+    <p>🕛 12:30 – Ceremonia</p>
+    <p>🥂 14:00 – Cóctel</p>
+    <p>🍽️ 15:30 – Banquete</p>
+    <p>🎉 18:00 – Fiesta</p>
+  </div>
+</section>
 
 <section>
   <h2>Confirmación de asistencia</h2>
   <div class="info">
-    <button class="button" data-modal="asistencia">Confirmar asistencia</button>
+    <p>Por favor, confirma tu asistencia antes del gran día.</p>
+    <button type="button" class="button" data-modal="asistencia">
+      Confirmar asistencia
+    </button>
   </div>
 </section>
 
-<!-- MODAL ASISTENCIA (CORREGIDO) -->
-<div id="modal-asistencia" class="modal-overlay">
-  <div class="modal">
-    <h2 class="modal-titulo">Confirmar asistencia</h2>
+<section>
+  <h2>Alergias e intolerancias</h2>
+  <div class="info">
+    <p>Ayúdanos a tenerlo todo en cuenta.</p>
+    <button type="button" class="button" data-modal="alergias">
+      Indicar alergias
+    </button>
+  </div>
+</section>
 
+<section>
+  <h2>Autobús</h2>
+  <div class="info">
+    <p>Confirma si necesitas plaza de autobús.</p>
+    <button type="button" class="button" data-modal="autobus">
+      Confirmar autobús
+    </button>
+  </div>
+</section>
+
+<!-- Modal: Confirmación de asistencia -->
+<div id="modal-asistencia" class="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-labelledby="titulo-asistencia">
+    <button type="button" class="modal-cerrar" aria-label="Cerrar" data-cerrar="asistencia">&times;</button>
+    <h2 id="titulo-asistencia" class="modal-titulo">Confirmar asistencia</h2>
     <form id="form-asistencia">
-
       <div class="form-grupo">
         <label for="asist-nombre">Nombre y apellidos *</label>
-        <input type="text" id="asist-nombre" name="nombre" required>
+        <input type="text" id="asist-nombre" name="nombre" required placeholder="Ej. María García López">
       </div>
-
+      <div class="form-grupo">
+        <label for="asist-email">Email *</label>
+        <input type="email" id="asist-email" name="email" required placeholder="tu@email.com">
+      </div>
+      <div class="form-grupo">
+        <label for="asist-telefono">Teléfono</label>
+        <input type="tel" id="asist-telefono" name="telefono" placeholder="600 000 000">
+      </div>
       <div class="form-grupo">
         <label for="asist-asiste">¿Asistes a la boda? *</label>
         <select id="asist-asiste" name="asiste" required>
@@ -182,19 +472,73 @@
           <option value="no">No podré asistir</option>
         </select>
       </div>
-
       <div class="form-grupo">
         <label for="asist-acompanantes">Número de acompañantes</label>
-        <input type="number" id="asist-acompanantes" name="acompanantes" min="0" value="0">
+        <input type="number" id="asist-acompanantes" name="acompanantes" min="0" max="20" value="0" placeholder="0">
       </div>
-
       <div class="form-grupo">
         <label for="asist-mensaje">Comentarios (opcional)</label>
-        <textarea id="asist-mensaje" name="mensaje"></textarea>
+        <textarea id="asist-mensaje" name="mensaje" placeholder="Cualquier cosa que quieras decirnos..."></textarea>
       </div>
-
       <button type="submit" class="form-boton">Enviar confirmación</button>
+    </form>
+  </div>
+</div>
 
+<!-- Modal: Alergias e intolerancias -->
+<div id="modal-alergias" class="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-labelledby="titulo-alergias">
+    <button type="button" class="modal-cerrar" aria-label="Cerrar" data-cerrar="alergias">&times;</button>
+    <h2 id="titulo-alergias" class="modal-titulo">Indicar alergias e intolerancias</h2>
+    <form id="form-alergias">
+      <div class="form-grupo">
+        <label for="alerg-nombre">Nombre y apellidos *</label>
+        <input type="text" id="alerg-nombre" name="nombre" required placeholder="Ej. María García López">
+      </div>
+      <div class="form-grupo">
+        <label for="alerg-alergias">Alergias o intolerancias *</label>
+        <textarea id="alerg-alergias" name="alergias" required placeholder="Describe las alergias o intolerancias alimentarias (ej. lactosa, frutos secos, gluten...)"></textarea>
+      </div>
+      <div class="form-grupo">
+        <label for="alerg-comentarios">Otros comentarios (opcional)</label>
+        <textarea id="alerg-comentarios" name="comentarios" placeholder="Detalles adicionales para la cocina..."></textarea>
+      </div>
+      <button type="submit" class="form-boton">Enviar</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Confirmar autobús -->
+<div id="modal-autobus" class="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-labelledby="titulo-autobus">
+    <button type="button" class="modal-cerrar" aria-label="Cerrar" data-cerrar="autobus">&times;</button>
+    <h2 id="titulo-autobus" class="modal-titulo">Confirmar plaza de autobús</h2>
+    <form id="form-autobus">
+      <div class="form-grupo">
+        <label for="bus-nombre">Nombre y apellidos *</label>
+        <input type="text" id="bus-nombre" name="nombre" required placeholder="Ej. María García López">
+      </div>
+      <div class="form-grupo">
+        <label for="bus-necesita">¿Necesitas plaza de autobús? *</label>
+        <select id="bus-necesita" name="necesita" required>
+          <option value="">Elige una opción</option>
+          <option value="si">Sí, necesito plaza(s)</option>
+          <option value="no">No, no necesito autobús</option>
+        </select>
+      </div>
+      <div class="form-grupo">
+        <label for="bus-plazas">Número de plazas</label>
+        <input type="number" id="bus-plazas" name="plazas" min="1" max="10" value="1" placeholder="1">
+      </div>
+      <div class="form-grupo">
+        <label for="bus-punto">Punto de recogida (si aplica)</label>
+        <input type="text" id="bus-punto" name="punto" placeholder="Ej. Parada centro ciudad">
+      </div>
+      <div class="form-grupo">
+        <label for="bus-notas">Notas (opcional)</label>
+        <textarea id="bus-notas" name="notas" placeholder="Cualquier indicación..."></textarea>
+      </div>
+      <button type="submit" class="form-boton">Enviar</button>
     </form>
   </div>
 </div>
@@ -204,15 +548,89 @@
 </footer>
 
 <script>
-  document.querySelector('[data-modal="asistencia"]').addEventListener('click', () => {
-    document.getElementById('modal-asistencia').classList.add('activo');
+  // Cuenta atrás - reloj digital (días, horas, minutos, segundos)
+  const countDownDate = new Date("Sep 12, 2026 12:00:00").getTime();
+  const countdownEl = document.getElementById("countdown");
+  function pad(n) { return n < 10 ? '0' + n : n; }
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = countDownDate - now;
+    if (distance < 0) {
+      countdownEl.classList.add("countdown-done");
+      return false;
+    }
+    countdownEl.classList.remove("countdown-done");
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((distance % (1000*60)) / 1000);
+    document.getElementById("cd-days").textContent = days;
+    document.getElementById("cd-hours").textContent = pad(hours);
+    document.getElementById("cd-mins").textContent = pad(minutes);
+    document.getElementById("cd-secs").textContent = pad(seconds);
+    return true;
+  }
+  updateCountdown();
+  const x = setInterval(function() {
+    if (!updateCountdown()) clearInterval(x);
+  }, 1000);
+
+  // Modales: abrir al pulsar en los botones
+  document.querySelectorAll('[data-modal]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = 'modal-' + this.getAttribute('data-modal');
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add('activo');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    });
   });
 
-  document.getElementById('form-asistencia').addEventListener('submit', e => {
+  // Cerrar modal: botón X
+  document.querySelectorAll('[data-cerrar]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var overlay = this.closest('.modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('activo');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+  // Cerrar modal: clic fuera (en el overlay)
+  document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        overlay.classList.remove('activo');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // Envío de formularios (por ahora solo mensaje; luego puedes conectar un backend)
+  document.getElementById('form-asistencia').addEventListener('submit', function(e) {
     e.preventDefault();
-    alert('¡Gracias! Hemos recibido tu confirmación.');
+    alert('¡Gracias! Hemos recibido tu confirmación de asistencia.');
     document.getElementById('modal-asistencia').classList.remove('activo');
-    e.target.reset();
+    document.body.style.overflow = '';
+    this.reset();
+  });
+  document.getElementById('form-alergias').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('¡Gracias! Hemos anotado tus alergias e intolerancias.');
+    document.getElementById('modal-alergias').classList.remove('activo');
+    document.body.style.overflow = '';
+    this.reset();
+  });
+  document.getElementById('form-autobus').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('¡Gracias! Hemos registrado tu solicitud de autobús.');
+    document.getElementById('modal-autobus').classList.remove('activo');
+    document.body.style.overflow = '';
+    this.reset();
   });
 </script>
 
