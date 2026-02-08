@@ -252,11 +252,13 @@
         margin-top: 20px;
       }
       .countdown-unit {
-        flex: 1 1 0;
+        flex: 0 0 calc((100% - 18px) / 4);
         min-width: 0;
+        width: calc((100% - 18px) / 4);
         padding: 10px 4px;
+        box-sizing: border-box;
       }
-      .countdown-unit .value { font-size: 1.35rem; }
+      .countdown-unit .value { font-size: 1.35rem; min-height: 1.4em; display: flex; align-items: center; justify-content: center; }
       .countdown-unit .label { font-size: 0.5rem; letter-spacing: 0.5px; }
       section { max-width: 88%; margin: 16px auto; padding: 24px 16px; }
       .button { padding: 12px 20px; font-size: 0.95rem; }
