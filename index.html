@@ -4,26 +4,75 @@
   <meta charset="UTF-8" />
   <title>Irantzu & Alberto – Boda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
   <style>
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      color: #333;
+      color: #2c3e3a;
       line-height: 1.6;
-      /* Fondo blanco con flores sutiles */
-      background-color: #fff;
-      background-image: url('https://i.ibb.co/Wf8D3k7/flower-pattern.png'); /* patrón floral sutil */
-      background-repeat: repeat;
-      background-size: 200px; /* tamaño de repetición del patrón */
+      background-color: #e8f0ee;
+      min-height: 100vh;
+      position: relative;
+      padding: 0;
     }
 
+    /* Marco en tonos verdes/azules */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+      border: 52px solid #c5d9d4;
+      box-shadow: inset 0 0 0 2px rgba(59,120,120,0.15);
+    }
+
+    .corner-flower {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.85;
+    }
+    .corner-flower.top-left  { top: 0;   left: 0;   transform: scale(1); }
+    .corner-flower.top-right { top: 0;   right: 0;  transform: scaleX(-1); }
+    .corner-flower.bot-left  { bottom: 0; left: 0;   transform: scaleY(-1); }
+    .corner-flower.bot-right { bottom: 0; right: 0;  transform: scale(-1); }
+
+    @media (max-width: 700px) {
+      body::before { border-width: 28px; }
+      .corner-flower { width: 70px; height: 70px; }
+    }
+
+    /* Header con foto de fondo */
     header {
-      background: linear-gradient(135deg, #ff7f50, #ffb347);
-      color: white;
+      position: relative;
+      z-index: 2;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       padding: 80px 20px;
+      background: url('assets/header-palacio.png') center center / cover no-repeat;
+      color: white;
     }
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(30,60,55,0.5) 0%, rgba(20,45,50,0.7) 100%);
+      z-index: 0;
+    }
+    header h1, header p, .countdown-wrap { position: relative; z-index: 1; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
     header h1 {
       font-family: 'Playfair Display', serif;
       font-size: 3em;
@@ -33,30 +82,70 @@
       font-size: 1.2em;
       margin-top: 10px;
     }
-    #countdown {
-      display: inline-block;
-      padding: 15px 30px;
-      background: rgba(0,0,0,0.7);
-      color: #fff;
-      font-family: 'Courier New', monospace;
-      font-size: 2em;
-      border-radius: 12px;
-      letter-spacing: 2px;
-      margin-top: 20px;
+
+    /* Reloj digital moderno - cuenta atrás */
+    .countdown-wrap {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 28px;
     }
+    .countdown-unit {
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      min-width: 78px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .countdown-unit .value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      display: block;
+      color: #fff;
+      letter-spacing: 1px;
+      line-height: 1.2;
+    }
+    .countdown-unit .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.9);
+      margin-top: 4px;
+    }
+    #countdown.countdown-done .countdown-wrap { display: none; }
+    #countdown.countdown-done .countdown-message { display: block; }
+    .countdown-message {
+      display: none;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-top: 20px;
+      padding: 16px 28px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 12px;
+    }
+
     section {
+      position: relative;
+      z-index: 2;
       max-width: 900px;
       margin: auto;
       padding: 60px 20px;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.92);
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 16px rgba(44,62,58,0.08);
       margin-bottom: 30px;
+      border: 1px solid rgba(69,130,120,0.2);
     }
     h2 {
       font-family: 'Playfair Display', serif;
       text-align: center;
       margin-bottom: 30px;
+      color: #1e4a45;
     }
     .info {
       text-align: center;
@@ -66,25 +155,32 @@
       display: inline-block;
       margin-top: 20px;
       padding: 12px 25px;
-      background: #ff7f50;
+      background: linear-gradient(135deg, #2d6a64, #3d8a82);
       color: white;
       text-decoration: none;
       border-radius: 30px;
       font-weight: 600;
+      box-shadow: 0 4px 14px rgba(45,106,100,0.35);
     }
     .button:hover {
-      background: #ff4c1e;
+      background: linear-gradient(135deg, #245a54, #327a72);
+      box-shadow: 0 6px 18px rgba(45,106,100,0.4);
     }
     @media (max-width: 600px) {
+      header { min-height: 360px; padding: 50px 16px; }
       header h1 { font-size: 2.2rem; }
       header p { font-size: 1rem; }
-      #countdown { font-size: 1.2em; padding: 10px 20px; }
+      .countdown-unit { min-width: 64px; padding: 12px 14px; }
+      .countdown-unit .value { font-size: 1.5rem; }
+      .countdown-unit .label { font-size: 0.6rem; }
       section { padding: 30px 10px; }
       .button { padding: 10px 20px; font-size: 0.95rem; }
     }
     footer {
-      background: #222;
-      color: #ccc;
+      position: relative;
+      z-index: 2;
+      background: #1a2f2c;
+      color: #a8c5c0;
       text-align: center;
       padding: 30px 20px;
       font-size: 0.9em;
@@ -93,10 +189,84 @@
 </head>
 <body>
 
+  <!-- Flores decorativas en las esquinas -->
+  <svg class="corner-flower top-left" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="petal" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#a8d5ce"/>
+        <stop offset="100%" style="stop-color:#5a9a8e"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(-20 60 60)"/>
+    <ellipse cx="85" cy="55" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(50 60 60)"/>
+    <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(120 60 60)"/>
+    <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(190 60 60)"/>
+    <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(260 60 60)"/>
+    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+  </svg>
+  <svg class="corner-flower top-right" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="petal2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#a8d5ce"/>
+        <stop offset="100%" style="stop-color:#5a9a8e"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(-20 60 60)"/>
+    <ellipse cx="85" cy="55" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(50 60 60)"/>
+    <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(120 60 60)"/>
+    <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(190 60 60)"/>
+    <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(260 60 60)"/>
+    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+  </svg>
+  <svg class="corner-flower bot-left" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="petal3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#a8d5ce"/>
+        <stop offset="100%" style="stop-color:#5a9a8e"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(-20 60 60)"/>
+    <ellipse cx="85" cy="55" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(50 60 60)"/>
+    <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(120 60 60)"/>
+    <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(190 60 60)"/>
+    <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(260 60 60)"/>
+    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+  </svg>
+  <svg class="corner-flower bot-right" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="petal4" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#a8d5ce"/>
+        <stop offset="100%" style="stop-color:#5a9a8e"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(-20 60 60)"/>
+    <ellipse cx="85" cy="55" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(50 60 60)"/>
+    <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(120 60 60)"/>
+    <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(190 60 60)"/>
+    <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(260 60 60)"/>
+    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+  </svg>
+
 <header>
   <h1>Irantzu & Alberto</h1>
   <p>12 de septiembre de 2026 · Palacio de Olloqui</p>
-  <p id="countdown"></p>
+  <div id="countdown">
+    <div class="countdown-wrap">
+      <div class="countdown-unit"><span class="value" id="cd-days">0</span><span class="label">Días</span></div>
+      <div class="countdown-unit"><span class="value" id="cd-hours">0</span><span class="label">Horas</span></div>
+      <div class="countdown-unit"><span class="value" id="cd-mins">0</span><span class="label">Min</span></div>
+      <div class="countdown-unit"><span class="value" id="cd-secs">0</span><span class="label">Seg</span></div>
+    </div>
+    <p class="countdown-message">¡Hoy es nuestro gran día!</p>
+  </div>
 </header>
 
 <section>
@@ -156,20 +326,27 @@
 </footer>
 
 <script>
-  // Cuenta atrás
+  // Cuenta atrás - reloj digital
   const countDownDate = new Date("Sep 12, 2026 12:00:00").getTime();
+  const countdownEl = document.getElementById("countdown");
+  function pad(n) { return n < 10 ? '0' + n : n; }
   const x = setInterval(function() {
     const now = new Date().getTime();
     const distance = countDownDate - now;
+    if (distance < 0) {
+      clearInterval(x);
+      countdownEl.classList.add("countdown-done");
+      return;
+    }
+    countdownEl.classList.remove("countdown-done");
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000*60*60));
     const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
     const seconds = Math.floor((distance % (1000*60)) / 1000);
-    document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-    if(distance < 0) {
-      clearInterval(x);
-      document.getElementById("countdown").innerHTML = "¡Hoy es nuestro gran día!";
-    }
+    document.getElementById("cd-days").textContent = days;
+    document.getElementById("cd-hours").textContent = pad(hours);
+    document.getElementById("cd-mins").textContent = pad(minutes);
+    document.getElementById("cd-secs").textContent = pad(seconds);
   }, 1000);
 </script>
 
