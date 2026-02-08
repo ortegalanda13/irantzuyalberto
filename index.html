@@ -162,9 +162,13 @@
       background: linear-gradient(135deg, #2d6a64, #3d8a82);
       color: white;
       text-decoration: none;
+      border: none;
       border-radius: 30px;
       font-weight: 600;
       box-shadow: 0 4px 14px rgba(45,106,100,0.35);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
     }
     .button:hover {
       background: linear-gradient(135deg, #245a54, #327a72);
@@ -201,6 +205,110 @@
       text-align: center;
       padding: 30px 20px;
       font-size: 0.9em;
+    }
+
+    /* Modales / formularios */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .modal-overlay.activo {
+      display: flex;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      position: relative;
+    }
+    .modal-cerrar {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: #e8f0ee;
+      color: #2c3e3a;
+      font-size: 1.4rem;
+      line-height: 1;
+      border-radius: 50%;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-cerrar:hover {
+      background: #c5d9d4;
+    }
+    .modal-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #1e4a45;
+      margin: 0 0 20px 0;
+      padding: 24px 24px 0 24px;
+    }
+    .modal form {
+      padding: 0 24px 24px 24px;
+    }
+    .form-grupo {
+      margin-bottom: 16px;
+    }
+    .form-grupo label {
+      display: block;
+      font-size: 0.9rem;
+      color: #2c3e3a;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .form-grupo input,
+    .form-grupo select,
+    .form-grupo textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #c5d9d4;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .form-grupo textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .form-grupo input:focus,
+    .form-grupo select:focus,
+    .form-grupo textarea:focus {
+      outline: none;
+      border-color: #5a9a8e;
+      box-shadow: 0 0 0 2px rgba(90,154,142,0.2);
+    }
+    .form-boton {
+      width: 100%;
+      margin-top: 8px;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #2d6a64, #3d8a82);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .form-boton:hover {
+      background: linear-gradient(135deg, #245a54, #327a72);
     }
   </style>
 </head>
@@ -312,9 +420,9 @@
   <h2>Confirmación de asistencia</h2>
   <div class="info">
     <p>Por favor, confirma tu asistencia antes del gran día.</p>
-    <a class="button" href="#" target="_blank">
+    <button type="button" class="button" data-modal="asistencia">
       Confirmar asistencia
-    </a>
+    </button>
   </div>
 </section>
 
@@ -322,9 +430,9 @@
   <h2>Alergias e intolerancias</h2>
   <div class="info">
     <p>Ayúdanos a tenerlo todo en cuenta.</p>
-    <a class="button" href="#" target="_blank">
+    <button type="button" class="button" data-modal="alergias">
       Indicar alergias
-    </a>
+    </button>
   </div>
 </section>
 
@@ -332,11 +440,108 @@
   <h2>Autobús</h2>
   <div class="info">
     <p>Confirma si necesitas plaza de autobús.</p>
-    <a class="button" href="#" target="_blank">
+    <button type="button" class="button" data-modal="autobus">
       Confirmar autobús
-    </a>
+    </button>
   </div>
 </section>
+
+<!-- Modal: Confirmación de asistencia -->
+<div id="modal-asistencia" class="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-labelledby="titulo-asistencia">
+    <button type="button" class="modal-cerrar" aria-label="Cerrar" data-cerrar="asistencia">&times;</button>
+    <h2 id="titulo-asistencia" class="modal-titulo">Confirmar asistencia</h2>
+    <form id="form-asistencia">
+      <div class="form-grupo">
+        <label for="asist-nombre">Nombre y apellidos *</label>
+        <input type="text" id="asist-nombre" name="nombre" required placeholder="Ej. María García López">
+      </div>
+      <div class="form-grupo">
+        <label for="asist-email">Email *</label>
+        <input type="email" id="asist-email" name="email" required placeholder="tu@email.com">
+      </div>
+      <div class="form-grupo">
+        <label for="asist-telefono">Teléfono</label>
+        <input type="tel" id="asist-telefono" name="telefono" placeholder="600 000 000">
+      </div>
+      <div class="form-grupo">
+        <label for="asist-asiste">¿Asistes a la boda? *</label>
+        <select id="asist-asiste" name="asiste" required>
+          <option value="">Elige una opción</option>
+          <option value="si">Sí, asistiré</option>
+          <option value="no">No podré asistir</option>
+        </select>
+      </div>
+      <div class="form-grupo">
+        <label for="asist-acompanantes">Número de acompañantes</label>
+        <input type="number" id="asist-acompanantes" name="acompanantes" min="0" max="20" value="0" placeholder="0">
+      </div>
+      <div class="form-grupo">
+        <label for="asist-mensaje">Comentarios (opcional)</label>
+        <textarea id="asist-mensaje" name="mensaje" placeholder="Cualquier cosa que quieras decirnos..."></textarea>
+      </div>
+      <button type="submit" class="form-boton">Enviar confirmación</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Alergias e intolerancias -->
+<div id="modal-alergias" class="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-labelledby="titulo-alergias">
+    <button type="button" class="modal-cerrar" aria-label="Cerrar" data-cerrar="alergias">&times;</button>
+    <h2 id="titulo-alergias" class="modal-titulo">Indicar alergias e intolerancias</h2>
+    <form id="form-alergias">
+      <div class="form-grupo">
+        <label for="alerg-nombre">Nombre y apellidos *</label>
+        <input type="text" id="alerg-nombre" name="nombre" required placeholder="Ej. María García López">
+      </div>
+      <div class="form-grupo">
+        <label for="alerg-alergias">Alergias o intolerancias *</label>
+        <textarea id="alerg-alergias" name="alergias" required placeholder="Describe las alergias o intolerancias alimentarias (ej. lactosa, frutos secos, gluten...)"></textarea>
+      </div>
+      <div class="form-grupo">
+        <label for="alerg-comentarios">Otros comentarios (opcional)</label>
+        <textarea id="alerg-comentarios" name="comentarios" placeholder="Detalles adicionales para la cocina..."></textarea>
+      </div>
+      <button type="submit" class="form-boton">Enviar</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Confirmar autobús -->
+<div id="modal-autobus" class="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-labelledby="titulo-autobus">
+    <button type="button" class="modal-cerrar" aria-label="Cerrar" data-cerrar="autobus">&times;</button>
+    <h2 id="titulo-autobus" class="modal-titulo">Confirmar plaza de autobús</h2>
+    <form id="form-autobus">
+      <div class="form-grupo">
+        <label for="bus-nombre">Nombre y apellidos *</label>
+        <input type="text" id="bus-nombre" name="nombre" required placeholder="Ej. María García López">
+      </div>
+      <div class="form-grupo">
+        <label for="bus-necesita">¿Necesitas plaza de autobús? *</label>
+        <select id="bus-necesita" name="necesita" required>
+          <option value="">Elige una opción</option>
+          <option value="si">Sí, necesito plaza(s)</option>
+          <option value="no">No, no necesito autobús</option>
+        </select>
+      </div>
+      <div class="form-grupo">
+        <label for="bus-plazas">Número de plazas</label>
+        <input type="number" id="bus-plazas" name="plazas" min="1" max="10" value="1" placeholder="1">
+      </div>
+      <div class="form-grupo">
+        <label for="bus-punto">Punto de recogida (si aplica)</label>
+        <input type="text" id="bus-punto" name="punto" placeholder="Ej. Parada centro ciudad">
+      </div>
+      <div class="form-grupo">
+        <label for="bus-notas">Notas (opcional)</label>
+        <textarea id="bus-notas" name="notas" placeholder="Cualquier indicación..."></textarea>
+      </div>
+      <button type="submit" class="form-boton">Enviar</button>
+    </form>
+  </div>
+</div>
 
 <footer>
   <p>Irantzu & Alberto · 12 de septiembre de 2026</p>
@@ -369,6 +574,64 @@
   const x = setInterval(function() {
     if (!updateCountdown()) clearInterval(x);
   }, 1000);
+
+  // Modales: abrir al pulsar en los botones
+  document.querySelectorAll('[data-modal]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = 'modal-' + this.getAttribute('data-modal');
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add('activo');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  // Cerrar modal: botón X
+  document.querySelectorAll('[data-cerrar]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var overlay = this.closest('.modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('activo');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+  // Cerrar modal: clic fuera (en el overlay)
+  document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        overlay.classList.remove('activo');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // Envío de formularios (por ahora solo mensaje; luego puedes conectar un backend)
+  document.getElementById('form-asistencia').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('¡Gracias! Hemos recibido tu confirmación de asistencia.');
+    document.getElementById('modal-asistencia').classList.remove('activo');
+    document.body.style.overflow = '';
+    this.reset();
+  });
+  document.getElementById('form-alergias').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('¡Gracias! Hemos anotado tus alergias e intolerancias.');
+    document.getElementById('modal-alergias').classList.remove('activo');
+    document.body.style.overflow = '';
+    this.reset();
+  });
+  document.getElementById('form-autobus').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('¡Gracias! Hemos registrado tu solicitud de autobús.');
+    document.getElementById('modal-autobus').classList.remove('activo');
+    document.body.style.overflow = '';
+    this.reset();
+  });
 </script>
 
 </body>
