@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Irantzu & Alberto – Boda</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
@@ -46,9 +46,13 @@
     .corner-flower.bot-left  { bottom: 0; left: 0;   transform: scaleY(-1); }
     .corner-flower.bot-right { bottom: 0; right: 0;  transform: scale(-1); }
 
+    @media (max-width: 768px) {
+      body::before { border-width: 20px; }
+      .corner-flower { width: 60px; height: 60px; }
+    }
     @media (max-width: 700px) {
-      body::before { border-width: 28px; }
-      .corner-flower { width: 70px; height: 70px; }
+      body::before { border-width: 16px; }
+      .corner-flower { width: 50px; height: 50px; }
     }
 
     /* Header: puesta de sol natural (solo CSS) */
@@ -202,28 +206,43 @@
       background: linear-gradient(135deg, #905838, #a86848);
       box-shadow: 0 6px 18px rgba(140,90,60,0.35);
     }
+    /* Tablet / móvil horizontal */
+    @media (max-width: 768px) {
+      section { max-width: 85%; margin: 20px auto; padding: 36px 24px; }
+      header h1 { font-size: 2.6rem; }
+      header p { font-size: 1.15rem; }
+    }
+    /* Móvil */
     @media (max-width: 600px) {
-      header { min-height: 360px; padding: 50px 16px; }
-      header h1 { font-size: 2.4rem; }
-      header p { font-size: 1.1rem; }
+      header { min-height: 320px; padding: 40px 12px; }
+      header h1 { font-size: 2rem; }
+      header p { font-size: 1rem; }
       .countdown-wrap {
         flex-wrap: nowrap;
         gap: 6px;
         width: 100%;
         max-width: 100%;
-        padding: 0 8px;
-        margin-left: auto;
-        margin-right: auto;
+        padding: 0 4px;
+        margin-top: 20px;
       }
       .countdown-unit {
         flex: 1 1 0;
         min-width: 0;
-        padding: 8px 4px;
+        padding: 10px 4px;
       }
-      .countdown-unit .value { font-size: 1.4rem; }
-      .countdown-unit .label { font-size: 0.55rem; letter-spacing: 0.5px; }
-      section { max-width: 92%; padding: 30px 16px; }
-      .button { padding: 10px 20px; font-size: 0.95rem; }
+      .countdown-unit .value { font-size: 1.35rem; }
+      .countdown-unit .label { font-size: 0.5rem; letter-spacing: 0.5px; }
+      section { max-width: 88%; margin: 16px auto; padding: 24px 16px; }
+      .button { padding: 12px 20px; font-size: 0.95rem; }
+      h2 { font-size: 1.25rem; margin-bottom: 20px; }
+      .info { font-size: 1rem; }
+    }
+    @media (max-width: 380px) {
+      body::before { border-width: 12px; }
+      .corner-flower { width: 40px; height: 40px; }
+      section { max-width: 92%; padding: 20px 12px; }
+      header h1 { font-size: 1.75rem; }
+      .countdown-unit .value { font-size: 1.15rem; }
     }
     footer {
       position: relative;
