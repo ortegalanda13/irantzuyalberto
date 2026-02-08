@@ -187,6 +187,22 @@
       text-align: center;
       font-size: 1.1em;
     }
+    .planning-horarios {
+      text-align: left;
+      max-width: 260px;
+      margin: 0 auto;
+    }
+    .planning-horarios .planning-line {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: nowrap;
+      margin: 0.4em 0;
+      gap: 0.35em;
+    }
+    .planning-horarios .planning-hora {
+      min-width: 7ch;
+      flex-shrink: 0;
+    }
     .button {
       display: inline-block;
       margin-top: 20px;
@@ -455,12 +471,12 @@
 
 <section>
   <h2>📓 Planning de la boda</h2>
-  <div class="info">
-    <p>💒 13:00 – Ceremonia</p>
-    <p>🥂 14:00 – Cóctel</p>
-    <p>🍽️ 16:30 – Banquete</p>
-    <p>🎉 20:00 – Fiesta</p>
-    <p>🚌 00:00 – Autobús</p>
+  <div class="info planning-horarios">
+    <p class="planning-line"><span class="planning-hora">💒 13:00</span> – Ceremonia</p>
+    <p class="planning-line"><span class="planning-hora">🥂 14:00</span> – Cóctel</p>
+    <p class="planning-line"><span class="planning-hora">🍽️ 16:30</span> – Banquete</p>
+    <p class="planning-line"><span class="planning-hora">🎉 20:00</span> – Fiesta</p>
+    <p class="planning-line"><span class="planning-hora">🚌 00:00</span> – Autobús</p>
   </div>
 </section>
 
