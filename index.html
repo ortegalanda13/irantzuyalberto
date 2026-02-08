@@ -51,7 +51,7 @@
       .corner-flower { width: 70px; height: 70px; }
     }
 
-    /* Header con foto de fondo */
+    /* Header con foto de fondo (la URL se asigna en JS para GitHub Pages) */
     header {
       position: relative;
       z-index: 2;
@@ -62,7 +62,10 @@
       justify-content: center;
       text-align: center;
       padding: 80px 20px;
-      background: url('assets/header-palacio.png') center center / cover no-repeat;
+      background-color: #2d5a54;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       color: white;
     }
     header::after {
@@ -186,6 +189,24 @@
       font-size: 0.9em;
     }
   </style>
+  <script>
+    // Ruta de la imagen que funciona en GitHub Pages y en local
+    (function() {
+      function setHeaderImage() {
+        var header = document.querySelector('header');
+        if (!header) return;
+        var pathname = window.location.pathname || '';
+        var base = pathname.replace(/[^/]*$/, '');
+        var imgUrl = (window.location.origin || '') + base + 'assets/header-palacio.png';
+        header.style.backgroundImage = "url('" + imgUrl + "')";
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setHeaderImage);
+      } else {
+        setHeaderImage();
+      }
+    })();
+  </script>
 </head>
 <body>
 
