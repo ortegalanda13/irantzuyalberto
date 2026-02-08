@@ -109,9 +109,12 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.35em;
       font-weight: 400;
-      margin-top: 10px;
+      margin: 6px 0 0 0;
       letter-spacing: 0.03em;
     }
+    header .header-fecha { margin-top: 12px; }
+    header .header-lugar { margin-top: 4px; }
+    #countdown { margin-top: 28px; }
 
     /* Reloj digital moderno - cuenta atrás */
     .countdown-wrap {
@@ -120,7 +123,6 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: stretch;
-      margin-top: 28px;
     }
     .countdown-unit {
       background: rgba(50,40,35,0.45);
@@ -249,8 +251,7 @@
         width: 100%;
         max-width: 100%;
         padding: 0 4px;
-        margin-top: 20px;
-      }
+        }
       .countdown-unit {
         flex: 0 0 calc((100% - 18px) / 4);
         min-width: 0;
@@ -457,7 +458,8 @@
 
 <header>
   <h1>Irantzu & Alberto</h1>
-  <p>12 de septiembre de 2026 · Palacio de Olloqui</p>
+  <p class="header-fecha">12 de septiembre de 2026</p>
+  <p class="header-lugar">Palacio de Olloqui</p>
   <div id="countdown">
     <div class="countdown-wrap">
       <div class="countdown-unit"><span class="value" id="cd-days">0</span><span class="label">Días</span></div>
