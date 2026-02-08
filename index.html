@@ -51,7 +51,7 @@
       .corner-flower { width: 70px; height: 70px; }
     }
 
-    /* Header con degradado verde claro (sin imagen, compatible con GitHub) */
+    /* Header con imagen de atardecer */
     header {
       position: relative;
       z-index: 2;
@@ -62,10 +62,17 @@
       justify-content: center;
       text-align: center;
       padding: 80px 20px;
-      background: linear-gradient(160deg, #a8d5c8 0%, #7eb8a8 35%, #5a9a8e 70%, #4a8a7e 100%);
-      color: #1a332e;
+      background: #2d5a54 url('assets/header-atardecer.png') center center / cover no-repeat;
+      color: #fff;
     }
-    header h1, header p, .countdown-wrap { position: relative; z-index: 1; text-shadow: 0 1px 3px rgba(255,255,255,0.5); }
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 100%);
+      z-index: 0;
+    }
+    header h1, header p, .countdown-wrap { position: relative; z-index: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.6); color: #fff; }
     header h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 3.2em;
