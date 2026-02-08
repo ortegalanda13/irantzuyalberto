@@ -11,15 +11,15 @@
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      color: #2c3e3a;
+      color: #3d3835;
       line-height: 1.6;
-      background-color: #e8f0ee;
+      background-color: #f5efe8;
       min-height: 100vh;
       position: relative;
       padding: 0;
     }
 
-    /* Marco en tonos verdes/azules */
+    /* Marco en tonos arena/atardecer */
     body::before {
       content: '';
       position: fixed;
@@ -29,8 +29,8 @@
       bottom: 0;
       pointer-events: none;
       z-index: 0;
-      border: 52px solid #c5d9d4;
-      box-shadow: inset 0 0 0 2px rgba(59,120,120,0.15);
+      border: 52px solid #e5d9ce;
+      box-shadow: inset 0 0 0 2px rgba(180,150,130,0.12);
     }
 
     .corner-flower {
@@ -51,7 +51,7 @@
       .corner-flower { width: 70px; height: 70px; }
     }
 
-    /* Header con imagen de atardecer */
+    /* Header: puesta de sol natural (solo CSS) */
     header {
       position: relative;
       z-index: 2;
@@ -62,17 +62,38 @@
       justify-content: center;
       text-align: center;
       padding: 80px 20px;
-      background: #2d5a54 url('assets/header-atardecer.png') center center / cover no-repeat;
+      background: linear-gradient(180deg,
+        #a8b8d0 0%,
+        #c8b8b0 22%,
+        #d8b898 38%,
+        #d4a078 52%,
+        #b87858 68%,
+        #786858 85%,
+        #504840 100%);
       color: #fff;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      bottom: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 90px;
+      background: radial-gradient(ellipse 100% 45% at 50% 50%, rgba(255,220,180,0.95) 0%, rgba(255,190,140,0.6) 25%, rgba(230,160,110,0.25) 55%, transparent 75%);
+      border-radius: 50%;
+      z-index: 0;
+      filter: blur(1px);
     }
     header::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 35%, transparent 65%, rgba(0,0,0,0.2) 100%);
       z-index: 0;
     }
-    header h1, header p, .countdown-wrap { position: relative; z-index: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.6); color: #fff; }
+    header h1, header p, .countdown-wrap { position: relative; z-index: 1; text-shadow: 0 1px 8px rgba(0,0,0,0.4), 0 2px 16px rgba(0,0,0,0.25); color: #fff; }
     header h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 3.2em;
@@ -98,7 +119,7 @@
       margin-top: 28px;
     }
     .countdown-unit {
-      background: rgba(26,51,46,0.4);
+      background: rgba(50,40,35,0.45);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255,255,255,0.35);
       border-radius: 12px;
@@ -135,9 +156,9 @@
       font-size: 1.5rem;
       margin-top: 20px;
       padding: 16px 28px;
-      background: rgba(26,51,46,0.5);
+      background: rgba(50,40,35,0.5);
       border-radius: 12px;
-      color: #1a332e;
+      color: #fff;
     }
 
     section {
@@ -150,13 +171,13 @@
       border-radius: 12px;
       box-shadow: 0 4px 16px rgba(44,62,58,0.08);
       margin-bottom: 30px;
-      border: 1px solid rgba(69,130,120,0.2);
+      border: 1px solid rgba(160,130,110,0.25);
     }
     h2 {
       font-family: 'Playfair Display', serif;
       text-align: center;
       margin-bottom: 30px;
-      color: #1e4a45;
+      color: #5c4a40;
     }
     .info {
       text-align: center;
@@ -166,20 +187,20 @@
       display: inline-block;
       margin-top: 20px;
       padding: 12px 25px;
-      background: linear-gradient(135deg, #2d6a64, #3d8a82);
+      background: linear-gradient(135deg, #a87050, #c08868);
       color: white;
       text-decoration: none;
       border: none;
       border-radius: 30px;
       font-weight: 600;
-      box-shadow: 0 4px 14px rgba(45,106,100,0.35);
+      box-shadow: 0 4px 14px rgba(140,90,60,0.3);
       cursor: pointer;
       font-family: inherit;
       font-size: 1rem;
     }
     .button:hover {
-      background: linear-gradient(135deg, #245a54, #327a72);
-      box-shadow: 0 6px 18px rgba(45,106,100,0.4);
+      background: linear-gradient(135deg, #905838, #a86848);
+      box-shadow: 0 6px 18px rgba(140,90,60,0.35);
     }
     @media (max-width: 600px) {
       header { min-height: 360px; padding: 50px 16px; }
@@ -207,8 +228,8 @@
     footer {
       position: relative;
       z-index: 2;
-      background: #1a2f2c;
-      color: #a8c5c0;
+      background: #4a4038;
+      color: #d8ccc4;
       text-align: center;
       padding: 30px 20px;
       font-size: 0.9em;
@@ -263,7 +284,7 @@
     .modal-titulo {
       font-family: 'Playfair Display', serif;
       font-size: 1.5rem;
-      color: #1e4a45;
+      color: #5c4a40;
       margin: 0 0 20px 0;
       padding: 24px 24px 0 24px;
     }
@@ -299,14 +320,14 @@
     .form-grupo select:focus,
     .form-grupo textarea:focus {
       outline: none;
-      border-color: #5a9a8e;
+      border-color: #b89878;
       box-shadow: 0 0 0 2px rgba(90,154,142,0.2);
     }
     .form-boton {
       width: 100%;
       margin-top: 8px;
       padding: 14px 24px;
-      background: linear-gradient(135deg, #2d6a64, #3d8a82);
+      background: linear-gradient(135deg, #a87050, #c08868);
       color: white;
       border: none;
       border-radius: 30px;
@@ -315,7 +336,7 @@
       cursor: pointer;
     }
     .form-boton:hover {
-      background: linear-gradient(135deg, #245a54, #327a72);
+      background: linear-gradient(135deg, #905838, #a86848);
     }
   </style>
 </head>
@@ -325,8 +346,8 @@
   <svg class="corner-flower top-left" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="petal" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#a8d5ce"/>
-        <stop offset="100%" style="stop-color:#5a9a8e"/>
+        <stop offset="0%" style="stop-color:#e8d4c4"/>
+        <stop offset="100%" style="stop-color:#c4a088"/>
       </linearGradient>
     </defs>
     <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(-20 60 60)"/>
@@ -334,15 +355,15 @@
     <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(120 60 60)"/>
     <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(190 60 60)"/>
     <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal)" opacity="0.9" transform="rotate(260 60 60)"/>
-    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
-    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
-    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+    <circle cx="60" cy="60" r="8" fill="#a87860"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#7a6b5a" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#7a6b5a" opacity="0.85"/>
   </svg>
   <svg class="corner-flower top-right" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="petal2" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#a8d5ce"/>
-        <stop offset="100%" style="stop-color:#5a9a8e"/>
+        <stop offset="0%" style="stop-color:#e8d4c4"/>
+        <stop offset="100%" style="stop-color:#c4a088"/>
       </linearGradient>
     </defs>
     <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(-20 60 60)"/>
@@ -350,15 +371,15 @@
     <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(120 60 60)"/>
     <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(190 60 60)"/>
     <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal2)" opacity="0.9" transform="rotate(260 60 60)"/>
-    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
-    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
-    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+    <circle cx="60" cy="60" r="8" fill="#a87860"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#7a6b5a" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#7a6b5a" opacity="0.85"/>
   </svg>
   <svg class="corner-flower bot-left" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="petal3" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#a8d5ce"/>
-        <stop offset="100%" style="stop-color:#5a9a8e"/>
+        <stop offset="0%" style="stop-color:#e8d4c4"/>
+        <stop offset="100%" style="stop-color:#c4a088"/>
       </linearGradient>
     </defs>
     <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(-20 60 60)"/>
@@ -366,15 +387,15 @@
     <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(120 60 60)"/>
     <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(190 60 60)"/>
     <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal3)" opacity="0.9" transform="rotate(260 60 60)"/>
-    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
-    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
-    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+    <circle cx="60" cy="60" r="8" fill="#a87860"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#7a6b5a" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#7a6b5a" opacity="0.85"/>
   </svg>
   <svg class="corner-flower bot-right" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="petal4" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#a8d5ce"/>
-        <stop offset="100%" style="stop-color:#5a9a8e"/>
+        <stop offset="0%" style="stop-color:#e8d4c4"/>
+        <stop offset="100%" style="stop-color:#c4a088"/>
       </linearGradient>
     </defs>
     <ellipse cx="60" cy="35" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(-20 60 60)"/>
@@ -382,9 +403,9 @@
     <ellipse cx="75" cy="85" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(120 60 60)"/>
     <ellipse cx="35" cy="75" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(190 60 60)"/>
     <ellipse cx="25" cy="45" rx="12" ry="18" fill="url(#petal4)" opacity="0.9" transform="rotate(260 60 60)"/>
-    <circle cx="60" cy="60" r="8" fill="#3d7a72"/>
-    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#4a6b5e" opacity="0.85"/>
-    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#4a6b5e" opacity="0.85"/>
+    <circle cx="60" cy="60" r="8" fill="#a87860"/>
+    <path d="M0 120 Q30 80 60 100 Q50 120 0 120" fill="#7a6b5a" opacity="0.85"/>
+    <path d="M120 0 Q80 30 100 60 Q120 50 120 0" fill="#7a6b5a" opacity="0.85"/>
   </svg>
 
 <header>
