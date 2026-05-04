@@ -386,6 +386,17 @@
     .form-boton:hover {
       background: linear-gradient(135deg, #905838, #a86848);
     }
+    .form-boton:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+    .form-honeypot {
+      position: absolute;
+      left: -5000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
@@ -550,6 +561,7 @@
         <label for="asist-mensaje">Comentarios (opcional)</label>
         <textarea id="asist-mensaje" name="mensaje" placeholder="Cualquier cosa que quieras decirnos..."></textarea>
       </div>
+      <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="form-boton">Enviar confirmación</button>
     </form>
   </div>
@@ -569,6 +581,7 @@
         <label for="alerg-comentarios">Otros comentarios (opcional)</label>
         <textarea id="alerg-comentarios" name="comentarios" placeholder="Detalles adicionales para la cocina..."></textarea>
       </div>
+      <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="form-boton">Enviar</button>
     </form>
   </div>
@@ -596,6 +609,7 @@
         <label for="bus-notas">Notas (opcional)</label>
         <textarea id="bus-notas" name="notas" placeholder="Cualquier indicación..."></textarea>
       </div>
+      <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="form-boton">Enviar</button>
     </form>
   </div>
@@ -606,6 +620,23 @@
 </footer>
 
 <script>
+  /*
+   * Formspree: pega abajo el enlace completo (https://formspree.io/f/xxxx) o solo el ID.
+   * Crea un formulario en Formspree por cada cuestionario o reutiliza el mismo ID en los tres.
+   */
+  const FORMSPREE_ASISTENCIA = 'https://formspree.io/f/xojrqzzp';
+  const FORMSPREE_ALERGIAS = 'https://formspree.io/f/mvzlonnn';
+  const FORMSPREE_AUTOBUS = 'https://formspree.io/f/xjglvdqk';
+
+  function parseFormspreeId(urlOrId) {
+    if (!urlOrId || typeof urlOrId !== 'string') return '';
+    var s = urlOrId.trim();
+    if (!s) return '';
+    var m = s.match(/formspree\.io\/f\/([^/?#]+)/i);
+    if (m) return m[1];
+    return s;
+  }
+
   // Cuenta atrás - reloj digital (días, horas, minutos, segundos)
   const countDownDate = new Date("Sep 12, 2026 12:00:00").getTime();
   const countdownEl = document.getElementById("countdown");
@@ -668,27 +699,62 @@
     });
   });
 
-  // Envío de formularios (por ahora solo mensaje; luego puedes conectar un backend)
-  document.getElementById('form-asistencia').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('¡Gracias! Hemos recibido tu confirmación de asistencia.');
-    document.getElementById('modal-asistencia').classList.remove('activo');
+  function cerrarModal(overlayId) {
+    var el = document.getElementById(overlayId);
+    if (el) {
+      el.classList.remove('activo');
+      el.setAttribute('aria-hidden', 'true');
+    }
     document.body.style.overflow = '';
-    this.reset();
+  }
+
+  function enviarAFormspree(e, form, formspreeUrlOrId, asunto, overlayId, mensajeOk) {
+    e.preventDefault();
+    var endpointId = parseFormspreeId(formspreeUrlOrId);
+    if (!endpointId) {
+      alert('Falta el enlace de Formspree para este formulario: en index.html, rellena FORMSPREE_ASISTENCIA, FORMSPREE_ALERGIAS o FORMSPREE_AUTOBUS (pega la URL o el ID).');
+      return;
+    }
+    var btn = form.querySelector('button[type="submit"]');
+    var fd = new FormData(form);
+    fd.append('_subject', asunto);
+    fd.append('formulario', asunto);
+    if (btn) btn.disabled = true;
+    fetch('https://formspree.io/f/' + endpointId, {
+      method: 'POST',
+      body: fd,
+      headers: { Accept: 'application/json' }
+    })
+      .then(function(res) {
+        return res.json().catch(function() { return {}; }).then(function(data) {
+          return { ok: res.ok, data: data };
+        });
+      })
+      .then(function(result) {
+        if (btn) btn.disabled = false;
+        if (result.ok) {
+          alert(mensajeOk);
+          cerrarModal(overlayId);
+          form.reset();
+        } else {
+          var msg = (result.data && result.data.error) ? result.data.error : 'No se pudo enviar. Revisa la conexión o inténtalo más tarde.';
+          alert(msg);
+        }
+      })
+      .catch(function() {
+        if (btn) btn.disabled = false;
+        alert('Error de red. Comprueba la conexión e inténtalo de nuevo.');
+      });
+  }
+
+  document.getElementById('form-asistencia').addEventListener('submit', function(e) {
+    enviarAFormspree(e, this, FORMSPREE_ASISTENCIA, '[Boda Irantzu y Alberto] Confirmación de asistencia', 'modal-asistencia', '¡Gracias! Hemos recibido tu confirmación de asistencia.');
   });
   document.getElementById('form-alergias').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('¡Gracias! Hemos anotado tus alergias e intolerancias.');
-    document.getElementById('modal-alergias').classList.remove('activo');
-    document.body.style.overflow = '';
-    this.reset();
+    enviarAFormspree(e, this, FORMSPREE_ALERGIAS, '[Boda Irantzu y Alberto] Alergias e intolerancias', 'modal-alergias', '¡Gracias! Hemos anotado tus alergias e intolerancias.');
   });
   document.getElementById('form-autobus').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('¡Gracias! Hemos registrado tu solicitud de autobús.');
-    document.getElementById('modal-autobus').classList.remove('activo');
-    document.body.style.overflow = '';
-    this.reset();
+    enviarAFormspree(e, this, FORMSPREE_AUTOBUS, '[Boda Irantzu y Alberto] Autobús', 'modal-autobus', '¡Gracias! Hemos registrado tu solicitud de autobús.');
   });
 </script>
 
