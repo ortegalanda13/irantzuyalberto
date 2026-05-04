@@ -390,6 +390,26 @@
       opacity: 0.65;
       cursor: not-allowed;
     }
+    .form-feedback {
+      display: none;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .form-feedback.mostrar { display: block; }
+    .form-feedback.ok {
+      background: rgba(90,154,142,0.12);
+      border-color: rgba(90,154,142,0.35);
+      color: #2c3e3a;
+    }
+    .form-feedback.error {
+      background: rgba(168,80,72,0.10);
+      border-color: rgba(168,80,72,0.35);
+      color: #6b2f2a;
+    }
     .form-honeypot {
       position: absolute;
       left: -5000px;
@@ -541,6 +561,7 @@
     <button type="button" class="modal-cerrar" aria-label="Cerrar" data-cerrar="asistencia">&times;</button>
     <h2 id="titulo-asistencia" class="modal-titulo">Confirmar asistencia</h2>
     <form id="form-asistencia">
+      <div class="form-feedback" aria-live="polite"></div>
       <div class="form-grupo">
         <label for="asist-nombre">Nombre y apellidos *</label>
         <input type="text" id="asist-nombre" name="nombre" required placeholder="Ej. María García López">
@@ -573,6 +594,11 @@
     <button type="button" class="modal-cerrar" aria-label="Cerrar" data-cerrar="alergias">&times;</button>
     <h2 id="titulo-alergias" class="modal-titulo">Indicar alergias e intolerancias</h2>
     <form id="form-alergias">
+      <div class="form-feedback" aria-live="polite"></div>
+      <div class="form-grupo">
+        <label for="alerg-nombre">Nombre y apellidos *</label>
+        <input type="text" id="alerg-nombre" name="nombre" required placeholder="Ej. María García López">
+      </div>
       <div class="form-grupo">
         <label for="alerg-alergias">Alergias o intolerancias *</label>
         <textarea id="alerg-alergias" name="alergias" required placeholder="Describe las alergias o intolerancias alimentarias (ej. lactosa, frutos secos, gluten...)"></textarea>
@@ -593,6 +619,11 @@
     <button type="button" class="modal-cerrar" aria-label="Cerrar" data-cerrar="autobus">&times;</button>
     <h2 id="titulo-autobus" class="modal-titulo">Confirmar plaza de autobús</h2>
     <form id="form-autobus">
+      <div class="form-feedback" aria-live="polite"></div>
+      <div class="form-grupo">
+        <label for="bus-nombre">Nombre y apellidos *</label>
+        <input type="text" id="bus-nombre" name="nombre" required placeholder="Ej. María García López">
+      </div>
       <div class="form-grupo">
         <label for="bus-necesita">¿Necesitas plaza de autobús? *</label>
         <select id="bus-necesita" name="necesita" required>
@@ -708,11 +739,21 @@
     document.body.style.overflow = '';
   }
 
+  function setFormFeedback(form, tipo, texto) {
+    var box = form.querySelector('.form-feedback');
+    if (!box) return;
+    box.classList.remove('ok', 'error', 'mostrar');
+    if (tipo === 'ok') box.classList.add('ok');
+    if (tipo === 'error') box.classList.add('error');
+    box.textContent = texto || '';
+    if (texto) box.classList.add('mostrar');
+  }
+
   function enviarAFormspree(e, form, formspreeUrlOrId, asunto, overlayId, mensajeOk) {
     e.preventDefault();
     var endpointId = parseFormspreeId(formspreeUrlOrId);
     if (!endpointId) {
-      alert('Falta el enlace de Formspree para este formulario: en index.html, rellena FORMSPREE_ASISTENCIA, FORMSPREE_ALERGIAS o FORMSPREE_AUTOBUS (pega la URL o el ID).');
+      setFormFeedback(form, 'error', 'Falta el enlace de Formspree para este formulario. Avísanos y lo configuramos.');
       return;
     }
     var btn = form.querySelector('button[type="submit"]');
@@ -720,6 +761,7 @@
     fd.append('_subject', asunto);
     fd.append('formulario', asunto);
     if (btn) btn.disabled = true;
+    setFormFeedback(form, '', '');
     fetch('https://formspree.io/f/' + endpointId, {
       method: 'POST',
       body: fd,
@@ -733,17 +775,20 @@
       .then(function(result) {
         if (btn) btn.disabled = false;
         if (result.ok) {
-          alert(mensajeOk);
-          cerrarModal(overlayId);
-          form.reset();
+          setFormFeedback(form, 'ok', mensajeOk);
+          setTimeout(function() {
+            cerrarModal(overlayId);
+            form.reset();
+            setFormFeedback(form, '', '');
+          }, 1200);
         } else {
           var msg = (result.data && result.data.error) ? result.data.error : 'No se pudo enviar. Revisa la conexión o inténtalo más tarde.';
-          alert(msg);
+          setFormFeedback(form, 'error', msg);
         }
       })
       .catch(function() {
         if (btn) btn.disabled = false;
-        alert('Error de red. Comprueba la conexión e inténtalo de nuevo.');
+        setFormFeedback(form, 'error', 'Error de red. Comprueba la conexión e inténtalo de nuevo.');
       });
   }
 
@@ -756,6 +801,22 @@
   document.getElementById('form-autobus').addEventListener('submit', function(e) {
     enviarAFormspree(e, this, FORMSPREE_AUTOBUS, '[Boda Irantzu y Alberto] Autobús', 'modal-autobus', '¡Gracias! Hemos registrado tu solicitud de autobús.');
   });
+
+  // Autobús: si elige "no", no tiene sentido indicar plazas
+  (function() {
+    var necesita = document.getElementById('bus-necesita');
+    var plazas = document.getElementById('bus-plazas');
+    if (!necesita || !plazas) return;
+    function syncPlazas() {
+      var v = (necesita.value || '').toLowerCase();
+      var disable = v === 'no';
+      plazas.disabled = disable;
+      if (disable) plazas.value = 0;
+      if (!disable && (!plazas.value || Number(plazas.value) < 1)) plazas.value = 1;
+    }
+    necesita.addEventListener('change', syncPlazas);
+    syncPlazas();
+  })();
 </script>
 
 </body>
